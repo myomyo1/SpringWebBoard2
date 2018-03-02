@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.smh.mapper.BoardMapper">
+	<insert id="insertBoard" parameterType="kr.co.smh.domain.board.dto.BoardDTO">
+		<![CDATA[
+			insert into tb_board_demo(bidx, title, contents, userid, writedate, modifydate)
+			values (board_seq.nextval, #{title}, #{contents}, #{userid}, sysdate, sysdate)
+		]]>
+	</insert>
+	<select id="selectBoard" resultType="kr.co.smh.domain.board.vo.BoardVO">
+		<![CDATA[
+			select bidx, title, userid, writedate, modifydate, hitcnt
+			from tb_board_demo
+			order by bidx desc
+		]]>
+	</select>
+	
+	<select id="selectBoardOne" parameterType="string" resultType="kr.co.smh.domain.board.vo.BoardVO">
+		<![CDATA[
+			select bidx, title, contents, userid, writedate, hitcnt
+			from tb_board_demo
+			where bidx = #{bidx}
+		]]>
+	</select>
+	
+	<update id="addHitCount">
+		<![CDATA[
+			update tb_board_demo
+			set hitcnt = hitcnt+1
+			where bidx = #{bidx}
+		]]>
+	</update>
+	
+</mapper>
